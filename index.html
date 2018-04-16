@@ -1,0 +1,15 @@
+<html>
+<body>
+    <script>
+        /**
+        * This is a work around because parcel doesn't play nice with parcel-bundler
+        * and the glslify package.
+        * https://github.com/parcel-bundler/parcel/issues/928
+        */
+        var WEBGL_RENDERER = true;
+        var CANVAS_RENDERER = false;
+    </script>
+    <script src="./index.js"></script>
+    <div id="game"></div>
+</body>
+</html>
