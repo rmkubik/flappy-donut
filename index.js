@@ -6,13 +6,15 @@ import donuts from './assets/donuts.png';
 
 const globals = {
     tileSize: 32,
-    scale: 2
+    scale: 2,
+    tilesTall: 10,
+    pipeGapSize: 3
 }
 
 const config = {
     type: Phaser.AUTO,
     width: 400,
-    height: globals.tileSize * globals.scale * 10,
+    height: globals.tileSize * globals.scale * globals.tilesTall,
     parent: 'game',
     physics: {
         default: 'arcade',
@@ -54,26 +56,41 @@ function create() {
     pipes = this.physics.add.group();
     buildPipe(pipes, 5);
 
-    this.physics.add.collider(donut, pipes);
+    this.physics.add.collider(donut, pipes, () => {
+        console.log('collide');
+    });
 
     this.input.keyboard.on('keydown_SPACE', event => {
         donut.body.velocity.y -= 400;
     });
 
     this.input.keyboard.on('keydown_ENTER', event => {
-        buildPipe(pipes, 5);
-        buildPipe(pipes, 2, true);
+        buildPipePair();
     });
+
+    setInterval(() => {
+        buildPipePair();
+    }, 1000);
 }
 
 function update() {
     pipes.getChildren().forEach(pipe => {
-        if (pipe.body.x < 0) {
+        if (pipe.body.x < 0 || pipe.body.y > config.height) {
             if (pipe.active) {
                 pipes.remove(pipe);
             }
         }
     });
+}
+
+function buildPipePair() {
+    const topHeight = Phaser.Math.RND.between (
+        1,
+        globals.tilesTall - globals.pipeGapSize - 1
+    );
+    const bottomHeight = globals.tilesTall - globals.pipeGapSize - topHeight;
+    buildPipe(pipes, topHeight);
+    buildPipe(pipes, bottomHeight, true);
 }
 
 function buildPipe(pipes, height, ceiling) {
