@@ -8,7 +8,8 @@ const globals = {
     tileSize: 32,
     scale: 2,
     tilesTall: 10,
-    pipeGapSize: 3
+    pipeGapSize: 3,
+    gravity: 300
 }
 
 const config = {
@@ -51,13 +52,13 @@ function create() {
     donut.setScale(2);
     donut.setBounce(0.8);
     donut.setCollideWorldBounds(true);
-    donut.body.setGravityY(300);
+    donut.body.setGravityY(globals.gravity);
 
     pipes = this.physics.add.group();
     buildPipe(pipes, 5);
 
-    this.physics.add.collider(donut, pipes, () => {
-        console.log('collide');
+    this.physics.add.collider(donut, pipes, (donut, pipe) => {
+        pipe.body.setGravityY(globals.gravity);
     });
 
     this.input.keyboard.on('keydown_SPACE', event => {
