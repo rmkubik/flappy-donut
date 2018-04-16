@@ -1,6 +1,6 @@
 import 'phaser';
 import './src/test';
-import tree1 from './assets/tree1.png';
+import tree1 from './assets/donut.svg';
 
 const config = {
     type: Phaser.AUTO,
