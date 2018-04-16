@@ -51,6 +51,7 @@ function create() {
     const donut = this.physics.add.sprite(150, 100, 'donuts', 0);
     donut.setScale(2);
     donut.setBounce(0.8);
+    // donut.body.setCircle(globals.tileSize / 2);
     donut.setCollideWorldBounds(true);
     donut.body.setGravityY(globals.gravity);
 
@@ -62,7 +63,11 @@ function create() {
     });
 
     this.input.keyboard.on('keydown_SPACE', event => {
-        donut.body.velocity.y -= 400;
+        flap(donut);
+    });
+
+    this.input.keyboard.on('touchstart', event => {
+        flap(donut);
     });
 
     this.input.keyboard.on('keydown_ENTER', event => {
@@ -72,6 +77,10 @@ function create() {
     setInterval(() => {
         buildPipePair();
     }, 1000);
+}
+
+function flap(donut) {
+    donut.body.velocity.y -= 400;
 }
 
 function update() {
