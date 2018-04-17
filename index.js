@@ -17,12 +17,12 @@ const deviceWidth = window.innerWidth * window.devicePixelRatio;
 const deviceHeight = window.innerHeight * window.devicePixelRatio;
 const width = globals.tileSize * globals.scale * globals.tilesWide;
 const height = globals.tileSize * globals.scale * globals.tilesTall;
-const scale = Math.min(deviceWidth / width, deviceHeight / height);
+const deviceScale = Math.min(deviceWidth / width, deviceHeight / height);
 
 const config = {
     type: Phaser.AUTO,
-    width: width * scale,
-    height: height * scale,
+    width: width * deviceScale,
+    height: height * deviceScale,
     parent: 'game',
     physics: {
         default: 'arcade',
@@ -56,7 +56,7 @@ function create() {
     const text = this.add.text(10, 10, 'Flappy Donut');
 
     const donut = this.physics.add.sprite(150, 100, 'donuts', 0);
-    donut.setScale(2);
+    donut.setScale(globals.scale * deviceScale);
     donut.setBounce(0.8);
     // donut.body.setCircle(globals.tileSize / 2);
     donut.setCollideWorldBounds(true);
@@ -128,7 +128,7 @@ function buildPipe(pipes, height, ceiling) {
             'donuts',
             i === height ? 1 : 2
         );
-        pipe.setScale(globals.scale);
+        pipe.setScale(globals.scale * deviceScale);
         pipe.body.velocity.x = -300;
         pipe.flipY = flipY;
     }
