@@ -81,9 +81,12 @@ function create() {
         buildPipePair();
     });
 
-    setInterval(() => {
-        buildPipePair();
-    }, 1000);
+    this.time.addEvent({
+        delay: 1000,
+        callback: buildPipePair,
+        callbackScope: this,
+        loop: true
+    });
 }
 
 function flap(donut) {
