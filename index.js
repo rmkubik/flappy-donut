@@ -8,14 +8,21 @@ const globals = {
     tileSize: 32,
     scale: 2,
     tilesTall: 10,
+    tilesWide: 6,
     pipeGapSize: 3,
     gravity: 300
 }
 
+const deviceWidth = window.innerWidth * window.devicePixelRatio;
+const deviceHeight = window.innerHeight * window.devicePixelRatio;
+const width = globals.tileSize * globals.scale * globals.tilesWide;
+const height = globals.tileSize * globals.scale * globals.tilesTall;
+const scale = Math.min(deviceWidth / width, deviceHeight / height);
+
 const config = {
     type: Phaser.AUTO,
-    width: 400,
-    height: globals.tileSize * globals.scale * globals.tilesTall,
+    width: width * scale,
+    height: height * scale,
     parent: 'game',
     physics: {
         default: 'arcade',
