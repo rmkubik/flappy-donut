@@ -66,7 +66,7 @@ function create() {
         flap(donut);
     });
 
-    this.input.on('touchstart', event => {
+    this.input.on('pointerdown', event => {
         flap(donut);
     });
 
