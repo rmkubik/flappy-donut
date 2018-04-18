@@ -10,19 +10,20 @@ const globals = {
     tilesTall: 10,
     tilesWide: 6,
     pipeGapSize: 3,
-    gravity: 300
+    gravity: 300,
+    deviceScale: 1
 }
 
-const deviceWidth = window.innerWidth * window.devicePixelRatio;
-const deviceHeight = window.innerHeight * window.devicePixelRatio;
+const deviceWidth = window.innerWidth;// * window.devicePixelRatio;
+const deviceHeight = window.innerHeight;// * window.devicePixelRatio;
 const width = globals.tileSize * globals.scale * globals.tilesWide;
 const height = globals.tileSize * globals.scale * globals.tilesTall;
 globals.deviceScale = Math.min(deviceWidth / width, deviceHeight / height);
 
 const config = {
     type: Phaser.AUTO,
-    width: width * globals.deviceScale,
-    height: height * globals.deviceScale,
+    width: width,// * globals.deviceScale,
+    height: height,// * globals.deviceScale,
     parent: 'game',
     physics: {
         default: 'arcade',
@@ -41,9 +42,24 @@ const config = {
 const gameEl = document.querySelector(`#${config.parent}`);
 const game = new Phaser.Game(config);
 
+// game.resize(width, height);
+// game.scene.scenes.forEach(function (scene) {
+//     scene.cameras.main.setViewport(0, 0, width, height);
+// });
+
 let pipes;
 
 function preload() {
+    document.querySelector(`#${config.parent}`)
+        .setAttribute(
+            'style',
+            `-ms-transform: scale(${globals.deviceScale});
+            -webkit-transform: scale3d(${globals.deviceScale}, 1);
+            -moz-transform: scale(${globals.deviceScale});
+            -o-transform: scale(${globals.deviceScale});
+            transform: scale(${globals.deviceScale});`
+        );
+
     this.load.image('donut', donut);
     this.load.image('tree', tree);
     this.load.spritesheet('donuts', donuts, {
