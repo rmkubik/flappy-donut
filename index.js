@@ -50,14 +50,23 @@ const game = new Phaser.Game(config);
 let pipes;
 
 function preload() {
+    this.mobile = false;
+    let orientation = (this.mobile) ? 'left' : 'center';
     document.querySelector(`#${config.parent}`)
         .setAttribute(
             'style',
-            `-ms-transform: scale(${globals.deviceScale});
+            `-ms-transform-origin: ${orientation} top;
+            -webkit-transform-origin: ${orientation} top;
+            -moz-transform-origin: ${orientation} top;
+            -o-transform-origin: ${orientation} top;
+            transform-origin: ${orientation} top;
+            -ms-transform: scale(${globals.deviceScale});
             -webkit-transform: scale3d(${globals.deviceScale}, 1);
             -moz-transform: scale(${globals.deviceScale});
             -o-transform: scale(${globals.deviceScale});
-            transform: scale(${globals.deviceScale});`
+            transform: scale(${globals.deviceScale});
+            display: block;
+            margin: 0 auto;`
         );
 
     this.load.image('donut', donut);
