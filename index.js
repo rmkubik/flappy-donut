@@ -14,6 +14,9 @@ const globals = {
     deviceScale: 1
 }
 
+/**
+ * Calculating size of screen to fit on mobile
+ */
 const deviceWidth = window.innerWidth;// * window.devicePixelRatio;
 const deviceHeight = window.innerHeight;// * window.devicePixelRatio;
 const width = globals.tileSize * globals.scale * globals.tilesWide;
@@ -22,8 +25,8 @@ globals.deviceScale = Math.min(deviceWidth / width, deviceHeight / height);
 
 const config = {
     type: Phaser.AUTO,
-    width: width,// * globals.deviceScale,
-    height: height,// * globals.deviceScale,
+    width,
+    height,
     parent: 'game',
     physics: {
         default: 'arcade',
@@ -42,14 +45,10 @@ const config = {
 const gameEl = document.querySelector(`#${config.parent}`);
 const game = new Phaser.Game(config);
 
-// game.resize(width, height);
-// game.scene.scenes.forEach(function (scene) {
-//     scene.cameras.main.setViewport(0, 0, width, height);
-// });
-
 let pipes;
 
 function preload() {
+    // Applying scaling for fitting canvas to mobile
     this.mobile = false;
     let orientation = (this.mobile) ? 'left' : 'center';
     document.querySelector(`#${config.parent}`)
@@ -69,6 +68,7 @@ function preload() {
             margin: 0 auto;`
         );
 
+
     this.load.image('donut', donut);
     this.load.image('tree', tree);
     this.load.spritesheet('donuts', donuts, {
@@ -87,12 +87,14 @@ function create() {
     donut.setCollideWorldBounds(true);
     donut.body.setGravityY(globals.gravity);
 
+
     pipes = this.physics.add.group();
     buildPipe(pipes, 5);
 
     this.physics.add.collider(donut, pipes, (donut, pipe) => {
         pipe.body.setGravityY(globals.gravity);
     });
+
 
     this.input.keyboard.on('keydown_SPACE', event => {
         flap(donut);
@@ -106,16 +108,13 @@ function create() {
         buildPipePair();
     });
 
+
     this.time.addEvent({
         delay: 1000,
         callback: buildPipePair,
         callbackScope: this,
         loop: true
     });
-}
-
-function flap(donut) {
-    donut.body.velocity.y -= 400;
 }
 
 function update() {
@@ -128,6 +127,11 @@ function update() {
     });
 }
 
+
+function flap(donut) {
+    donut.body.velocity.y -= 400;
+}
+
 function buildPipePair() {
     const topHeight = Phaser.Math.RND.between (
         1,
@@ -138,6 +142,9 @@ function buildPipePair() {
     buildPipe(pipes, bottomHeight, true);
 }
 
+/**
+ * Build a pipe on the screen that is either attached to the floor or the ceiling
+ */
 function buildPipe(pipes, height, ceiling) {
     for (let i = 1; i <= height; i++) {
         let y;
@@ -162,6 +169,9 @@ function buildPipe(pipes, height, ceiling) {
     }
 }
 
+/**
+* Enable Parcel hot loading
+*/
 if (module.hot) {
   module.hot.accept(() => {
     while (gameEl.firstChild) {
