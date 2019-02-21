@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { globals, config } from "../config";
+import globals from "../globals";
 import donutImg from "../../assets/donut.svg";
 import treeImg from "../../assets/tree1.png";
 import donutsImg from "../../assets/donuts.png";
@@ -7,25 +7,6 @@ import Donut from "../gameObjects/Donut";
 
 class MainScene extends Phaser.Scene {
   preload() {
-    // Applying scaling for fitting canvas to mobile
-    this.mobile = false;
-    const orientation = this.mobile ? "left" : "center";
-    document.querySelector(`#${config.parent}`).setAttribute(
-      "style",
-      `-ms-transform-origin: ${orientation} top;
-              -webkit-transform-origin: ${orientation} top;
-              -moz-transform-origin: ${orientation} top;
-              -o-transform-origin: ${orientation} top;
-              transform-origin: ${orientation} top;
-              -ms-transform: scale(${globals.deviceScale});
-              -webkit-transform: scale3d(${globals.deviceScale}, 1);
-              -moz-transform: scale(${globals.deviceScale});
-              -o-transform: scale(${globals.deviceScale});
-              transform: scale(${globals.deviceScale});
-              display: block;
-              margin: 0 auto;`
-    );
-
     this.load.image("donut", donutImg);
     this.load.image("tree", treeImg);
     this.load.spritesheet("donuts", donutsImg, {
@@ -68,7 +49,7 @@ class MainScene extends Phaser.Scene {
 
   update() {
     this.pipes.getChildren().forEach(pipe => {
-      if (pipe.body.x < 0 || pipe.body.y > config.height) {
+      if (pipe.body.x < 0 || pipe.body.y > globals.height) {
         if (pipe.active) {
           this.pipes.remove(pipe);
         }
@@ -85,14 +66,14 @@ class MainScene extends Phaser.Scene {
         flipY = true;
       } else {
         y =
-          config.height -
+          globals.height -
           globals.tileSize * globals.scale * i +
           globals.tileSize;
         flipY = false;
       }
 
       const pipe = this.pipes.create(
-        config.width + (globals.tileSize / 2) * globals.scale,
+        globals.width + (globals.tileSize / 2) * globals.scale,
         y,
         "donuts",
         i === height ? 1 : 2

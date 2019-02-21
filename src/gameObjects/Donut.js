@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { globals } from "../config";
+import globals from "../globals";
 
 class Donut extends Phaser.GameObjects.Sprite {
   constructor({ scene, position }) {
