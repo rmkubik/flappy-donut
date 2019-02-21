@@ -1,8 +1,9 @@
 import Phaser from "phaser";
-import { globals, config } from "./config";
-import donutImg from "../assets/donut.svg";
-import treeImg from "../assets/tree1.png";
-import donutsImg from "../assets/donuts.png";
+import { globals, config } from "../config";
+import donutImg from "../../assets/donut.svg";
+import treeImg from "../../assets/tree1.png";
+import donutsImg from "../../assets/donuts.png";
+import Donut from "../gameObjects/Donut";
 
 class MainScene extends Phaser.Scene {
   preload() {
@@ -36,12 +37,7 @@ class MainScene extends Phaser.Scene {
   create() {
     const text = this.add.text(10, 10, "Flappy Donut");
 
-    this.donut = this.physics.add.sprite(150, 100, "donuts", 0);
-    this.donut.setScale(globals.scale);
-    this.donut.setBounce(0.8);
-    // donut.body.setCircle(globals.tileSize / 2);
-    this.donut.setCollideWorldBounds(true);
-    this.donut.body.setGravityY(globals.gravity);
+    this.donut = new Donut({ scene: this, position: { x: 150, y: 100 } });
 
     this.pipes = this.physics.add.group();
     this.buildPipe(5);
@@ -51,11 +47,11 @@ class MainScene extends Phaser.Scene {
     });
 
     this.input.keyboard.on("keydown_SPACE", event => {
-      this.flap();
+      this.donut.flap();
     });
 
     this.input.on("pointerdown", event => {
-      this.flap();
+      this.donut.flap();
     });
 
     this.input.keyboard.on("keydown_ENTER", event => {
@@ -105,10 +101,6 @@ class MainScene extends Phaser.Scene {
       pipe.body.velocity.x = -300;
       pipe.flipY = flipY;
     }
-  }
-
-  flap() {
-    this.donut.body.velocity.y -= 400;
   }
 
   /**

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import MainScene from "./MainScene";
+import MainScene from "./scenes/MainScene";
 
 export const globals = {
   tileSize: 32,
