@@ -5,15 +5,16 @@ import globals from "./src/globals";
 const gameEl = document.querySelector(`#${config.parent}`);
 const game = new Phaser.Game(config);
 
-const orientation = "center";
-
+/**
+ * Apply styles to fit to the screen in mobile
+ */
 gameEl.setAttribute(
   "style",
-  `-ms-transform-origin: ${orientation} top;
-          -webkit-transform-origin: ${orientation} top;
-          -moz-transform-origin: ${orientation} top;
-          -o-transform-origin: ${orientation} top;
-          transform-origin: ${orientation} top;
+  `-ms-transform-origin: center top;
+          -webkit-transform-origin: center top;
+          -moz-transform-origin: center top;
+          -o-transform-origin: center top;
+          transform-origin: center top;
           -ms-transform: scale(${globals.deviceScale});
           -webkit-transform: scale3d(${globals.deviceScale}, 1);
           -moz-transform: scale(${globals.deviceScale});
