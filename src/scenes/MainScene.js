@@ -18,7 +18,13 @@ class MainScene extends Phaser.Scene {
     this.donut = new Donut({ scene: this, position: { x: 150, y: 100 } });
 
     this.pipes = new Pipes({ scene: this });
-    this.pipes.buildPipeSegment(5);
+    this.pipes.buildPipePair(5);
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.pipes.buildPipePair,
+      callbackScope: this.pipes,
+      loop: true
+    });
 
     this.physics.add.collider(this.donut, this.pipes, (donut, pipe) => {
       pipe.body.setGravityY(globals.gravity);
@@ -37,7 +43,7 @@ class MainScene extends Phaser.Scene {
     });
 
     this.input.keyboard.on("keydown_ENTER", () => {
-      this.buildPipeSegmentPair();
+      this.buildPipePair();
     });
   }
 

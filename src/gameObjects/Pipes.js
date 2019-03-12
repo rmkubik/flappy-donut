@@ -6,17 +6,6 @@ class Pipes extends Phaser.GameObjects.Group {
     super(scene);
     scene.add.existing(this);
     this.scene = scene;
-
-    this.startSpawnLoop();
-  }
-
-  startSpawnLoop() {
-    this.scene.time.addEvent({
-      delay: 1000,
-      callback: this.buildPipeSegmentPair,
-      callbackScope: this,
-      loop: true
-    });
   }
 
   create({ x, y, sprite, ceiling }) {
@@ -43,7 +32,7 @@ class Pipes extends Phaser.GameObjects.Group {
     });
   }
 
-  buildPipeSegment(height, ceiling) {
+  buildPipe(height, ceiling) {
     for (let i = 1; i <= height; i += 1) {
       const pipeLength = globals.tileSize * globals.scale * i;
 
@@ -66,15 +55,15 @@ class Pipes extends Phaser.GameObjects.Group {
   /**
    * Build a pipe on the screen that is either attached to the floor or the ceiling
    */
-  buildPipeSegmentPair() {
+  buildPipePair() {
     const topHeight = Phaser.Math.RND.between(
       1,
       globals.tilesTall - globals.pipeGapSize - 1
     );
     const bottomHeight = globals.tilesTall - globals.pipeGapSize - topHeight;
 
-    this.buildPipeSegment(topHeight, false);
-    this.buildPipeSegment(bottomHeight, true);
+    this.buildPipe(topHeight, false);
+    this.buildPipe(bottomHeight, true);
   }
 }
 
