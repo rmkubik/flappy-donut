@@ -43,7 +43,7 @@ class MainScene extends Phaser.Scene {
     });
 
     this.input.keyboard.on("keydown_ENTER", () => {
-      this.buildPipePair();
+      this.pipes.buildPipePair();
     });
   }
 
