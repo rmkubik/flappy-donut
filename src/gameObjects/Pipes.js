@@ -8,8 +8,8 @@ class Pipes extends Phaser.GameObjects.Group {
     this.scene = scene;
   }
 
-  create({ x, y, sprite, isOnCeiling }) {
-    const pipe = super.create(x, y, "donuts", sprite);
+  create({ x, y, frame, isOnCeiling }) {
+    const pipe = super.create(x, y, "donuts", frame);
     this.scene.physics.world.enable(pipe);
     pipe.setScale(globals.scale);
     pipe.body.velocity.x = -300;
@@ -46,7 +46,7 @@ class Pipes extends Phaser.GameObjects.Group {
       this.create({
         x: globals.width + (globals.tileSize / 2) * globals.scale,
         y,
-        sprite: i === height ? 1 : 2,
+        frame: i === height ? 1 : 2,
         isOnCeiling
       });
     }
